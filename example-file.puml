@@ -1,25 +1,16 @@
 @startuml
-' this beta feature (adding classes to participants) doesn't seem to work too well, it prints the classname as a label
-' so for now the participant boxes need to have colors declared inline
-' skinparam useBetaStyle true
-' <style>
-'     sequenceDiagram {
-'       .HTTP_server_requests {
-'         BackgroundColor #ff00ff
-'       }
-'        .controllers {
-'          BackgroundColor #ff00ff
-'        }
-'     }
-' </style>
 
 !includeurl https://raw.githubusercontent.com/getappmap/plantuml-theme/main/appmap-theme.puml
 
+' this beta feature (adding classes to participants) doesn't seem to work too well
+' it prints the classname as a label. The docs say this is a bug in an old version... but it is showing up
+' so for now the participant boxes need to have colors declared inline
+
 ' participant HTTP_server_requests as "HTTP server requests" <<HTTP_server_requests>>
 ' participant controllers as "controllers" <<controllers>>
-' participant models as "models" #445db1 <<models>>
-' participant views as "views" #445db1 <<views>>
-' participant Database as "Database" #9a12ba <<Database>>
+' participant models as "models" <<models>>
+' participant views as "views"  <<views>>
+' participant Database as "Database" <<Database>>
 
 'the following have hard-coded backgroundcolors
 participant HTTP_server_requests as "HTTP server requests" #541a68

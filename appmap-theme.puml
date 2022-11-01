@@ -1,15 +1,29 @@
 @startuml
 ' UML stylesheet -DW
 
-' this beta style doesn't seem to work too well, it prints the classname as a label
+' this beta feature (adding classes to participants) doesn't seem to work too well
+' it prints the classname as a label. The docs say this is a bug in an old version... but it is showing up
+' so for now the participant boxes need to have colors declared inline
+
 ' skinparam useBetaStyle true
 ' <style>
 '     sequenceDiagram {
 '       .HTTP_server_requests {
-'         BackgroundColor #ff00ff
-'      }
+'         BackgroundColor #541a68
+'       }
+'        .controllers {
+'          BackgroundColor #445db1
+'        }
+'        .models {
+'          BackgroundColor #445db1 
+'        }
+'        .views {
+'          BackgroundColor #9a12ba
+'        }
+'        .Database {
+'          BackgroundColor #9a12ba
+'        }
 '     }
-' }
 ' </style>
 
 !if (%not(%variable_exists("$FONTNAME")))
