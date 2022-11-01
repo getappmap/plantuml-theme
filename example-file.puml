@@ -1,0 +1,219 @@
+@startuml
+' UML stylesheet -DW
+
+' this beta style doesn't seem to work too well, it prints the classname as a label
+' skinparam useBetaStyle true
+' <style>
+'     sequenceDiagram {
+'       .HTTP_server_requests {
+'         BackgroundColor #ff00ff
+'      }
+'     }
+' }
+' </style>
+
+!if (%not(%variable_exists("$FONTNAME")))
+!$FONTNAME = "Verdana"
+!endif
+!if (%not(%variable_exists("$FONTSIZE")))
+!$FONTSIZE = 14
+
+!endif
+
+skinparam backgroundColor black
+!$ACCENT = "1a66c2"
+!$ACCENTDARK = "002642"
+skinparam stereotypeCBackgroundColor $ACCENT
+!$PRIMARYFONTCOLOR = "fff"
+!$SECONDARY = "aaa"
+!$ARROWCOLOR = "fff"
+!$ARROWFONTCOLOR = "bbb"
+!$BORDERCOLOR = "000"
+!$BOXBG = "2e2e2e"
+
+!procedure font_style()
+  fontColor $PRIMARYFONTCOLOR
+  fontName $FONTNAME
+  fontSize $FONTSIZE
+  stereotypeFontColor $SECONDARY
+  stereotypeFontSize $FONTSIZE
+!endprocedure
+
+!procedure basic_style()
+  backgroundColor $BOXBG
+  borderColor $BORDERCOLOR
+!endprocedure
+
+!procedure accent_style()
+  backgroundColor #576ca7
+  borderColor $ACCENTDARK
+!endprocedure
+
+!procedure arrow_style()
+  arrowColor $ARROWCOLOR
+  arrowFontName $FONTNAME
+  arrowFontColor $ARROWFONTCOLOR
+  arrowFontSize $FONTSIZE
+!endprocedure
+
+skinparam actor {
+  accent_style()
+  font_style()
+}
+
+skinparam participant {
+  basic_style()
+  font_style()
+}
+
+skinparam collections {
+  basic_style()
+  font_style()
+}
+
+skinparam sequence {
+  font_style()
+  arrow_style()
+
+  lifeLineBorderColor #7191fe
+  lifeLineBackgroundColor #000
+}
+
+skinparam note {
+  accent_style()
+  font_style()
+}
+
+skinparam cloud {
+  basic_style()
+  font_style()
+  arrow_style()
+}
+
+skinparam rectangle {
+  basic_style()
+  font_style()
+}
+
+skinparam storage {
+  basic_style()
+  font_style()
+}
+
+' end UML styles
+
+
+' participant HTTP_server_requests as "HTTP server requests" <<HTTP_server_requests>>
+participant HTTP_server_requests as "HTTP server requests" #541a68
+participant controllers as "controllers" #445db1
+participant models as "models" #445db1
+participant views as "views" #445db1
+participant Database as "Database" #9a12ba
+  [->Database: begin transaction
+  [->Database: SELECT "users".* FROM "users" WHERE "users"."id" =
+  Note right
+SELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?
+  End note
+  [->Database: SELECT "users".* FROM "users" WHERE "users"."id" =
+  Note right
+SELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?
+  End note
+  [->HTTP_server_requests: POST /login
+  activate HTTP_server_requests
+    HTTP_server_requests->controllers: create
+    activate controllers
+      controllers->Database: SELECT "users".* FROM "users" WHERE "users"."email
+      Note right
+SELECT "users".* FROM "users" WHERE "users"."email" = ? LIMIT ?
+      End note
+      controllers->models: remember
+      activate models
+        models->models: <u>new_remember_token</u>
+        activate models
+        models<--models: string
+        deactivate models
+        models->models: <u>digest</u>
+        activate models
+        models<--models: BCrypt::Password
+        deactivate models
+        models->Database: SAVEPOINT active_record_1
+        models->Database: UPDATE "users" SET "remember_digest" = ?, "updated
+        Note right
+UPDATE "users" SET "remember_digest" = ?, "updated_at" = ? WHERE "users"."id" =
+?
+        End note
+        models->Database: RELEASE SAVEPOINT active_record_1
+      controllers<--models: boolean
+      deactivate models
+    HTTP_server_requests<--controllers: string
+    deactivate controllers
+  [<--HTTP_server_requests: 302
+  deactivate HTTP_server_requests
+  [->HTTP_server_requests: GET /users/{id}/following
+  activate HTTP_server_requests
+    HTTP_server_requests->Database: SELECT "users".* FROM "users" WHERE "users"."id" =
+    Note right
+SELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?
+    End note
+    HTTP_server_requests->controllers: following
+    activate controllers
+      controllers->Database: SELECT "users".* FROM "users" WHERE "users"."id" =
+      Note right
+SELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?
+      End note
+      controllers->controllers: page_number
+      activate controllers
+      controllers<--controllers: integer
+      deactivate controllers
+      controllers->views: <u>render</u>
+        views->Database: SELECT COUNT(*) FROM "microposts" WHERE "micropost
+        Note right
+SELECT COUNT(*) FROM "microposts" WHERE "microposts"."user_id" = ?
+        End note
+        views->views: <u>render</u>
+          views->Database: SELECT COUNT(*) FROM "users" INNER JOIN "relations
+          Note right
+SELECT COUNT(*) FROM "users" INNER JOIN "relationships" ON "users"."id" =
+"relationships"."followed_id" WHERE "relationships"."follower_id" = ?
+          End note
+          views->Database: SELECT COUNT(*) FROM "users" INNER JOIN "relations
+          Note right
+SELECT COUNT(*) FROM "users" INNER JOIN "relationships" ON "users"."id" =
+"relationships"."follower_id" WHERE "relationships"."followed_id" = ?
+          End note
+        views->Database: SELECT COUNT(*) FROM "users" INNER JOIN "relations
+        Note right
+SELECT COUNT(*) FROM "users" INNER JOIN "relationships" ON "users"."id" =
+"relationships"."followed_id" WHERE "relationships"."follower_id" = ?
+        End note
+        views->Database: SELECT "users".* FROM "users" INNER JOIN "relation
+        Note right
+SELECT "users".* FROM "users" INNER JOIN "relationships" ON "users"."id" =
+"relationships"."followed_id" WHERE "relationships"."follower_id" = ? LIMIT ?
+OFFSET ?
+        End note
+        views->views: <u>render</u>
+        views->views: <u>render</u>
+        views->views: <u>render</u>
+        views->views: <u>render</u>
+    HTTP_server_requests<--controllers: ActionView::OutputBuffer
+    deactivate controllers
+  [<--HTTP_server_requests: 200
+  deactivate HTTP_server_requests
+  [->Database: SELECT 1 AS one FROM "users" INNER JOIN "relations
+  Note right
+SELECT 1 AS one FROM "users" INNER JOIN "relationships" ON "users"."id" =
+"relationships"."followed_id" WHERE "relationships"."follower_id" = ? LIMIT ?
+  End note
+  [->Database: SELECT COUNT(*) FROM "users" INNER JOIN "relations
+  Note right
+SELECT COUNT(*) FROM "users" INNER JOIN "relationships" ON "users"."id" =
+"relationships"."followed_id" WHERE "relationships"."follower_id" = ?
+  End note
+  [->Database: SELECT "users".* FROM "users" INNER JOIN "relation
+  Note right
+SELECT "users".* FROM "users" INNER JOIN "relationships" ON "users"."id" =
+"relationships"."followed_id" WHERE "relationships"."follower_id" = ?
+  End note
+  [->Database: rollback transaction
+@enduml

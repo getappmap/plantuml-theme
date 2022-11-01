@@ -1,0 +1,103 @@
+@startuml
+' UML stylesheet -DW
+
+' this beta style doesn't seem to work too well, it prints the classname as a label
+' skinparam useBetaStyle true
+' <style>
+'     sequenceDiagram {
+'       .HTTP_server_requests {
+'         BackgroundColor #ff00ff
+'      }
+'     }
+' }
+' </style>
+
+!if (%not(%variable_exists("$FONTNAME")))
+!$FONTNAME = "Verdana"
+!endif
+!if (%not(%variable_exists("$FONTSIZE")))
+!$FONTSIZE = 14
+
+!endif
+
+skinparam backgroundColor black
+!$ACCENT = "1a66c2"
+!$ACCENTDARK = "002642"
+skinparam stereotypeCBackgroundColor $ACCENT
+!$PRIMARYFONTCOLOR = "fff"
+!$SECONDARY = "aaa"
+!$ARROWCOLOR = "fff"
+!$ARROWFONTCOLOR = "bbb"
+!$BORDERCOLOR = "000"
+!$BOXBG = "2e2e2e"
+
+!procedure font_style()
+  fontColor $PRIMARYFONTCOLOR
+  fontName $FONTNAME
+  fontSize $FONTSIZE
+  stereotypeFontColor $SECONDARY
+  stereotypeFontSize $FONTSIZE
+!endprocedure
+
+!procedure basic_style()
+  backgroundColor $BOXBG
+  borderColor $BORDERCOLOR
+!endprocedure
+
+!procedure accent_style()
+  backgroundColor #576ca7
+  borderColor $ACCENTDARK
+!endprocedure
+
+!procedure arrow_style()
+  arrowColor $ARROWCOLOR
+  arrowFontName $FONTNAME
+  arrowFontColor $ARROWFONTCOLOR
+  arrowFontSize $FONTSIZE
+!endprocedure
+
+skinparam actor {
+  accent_style()
+  font_style()
+}
+
+skinparam participant {
+  basic_style()
+  font_style()
+}
+
+skinparam collections {
+  basic_style()
+  font_style()
+}
+
+skinparam sequence {
+  font_style()
+  arrow_style()
+
+  lifeLineBorderColor #7191fe
+  lifeLineBackgroundColor #000
+}
+
+skinparam note {
+  accent_style()
+  font_style()
+}
+
+skinparam cloud {
+  basic_style()
+  font_style()
+  arrow_style()
+}
+
+skinparam rectangle {
+  basic_style()
+  font_style()
+}
+
+skinparam storage {
+  basic_style()
+  font_style()
+}
+
+@enduml
