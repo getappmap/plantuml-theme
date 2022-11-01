@@ -43,7 +43,7 @@ skinparam stereotypeCBackgroundColor $ACCENT
 !$ARROWCOLOR = "fff"
 !$ARROWFONTCOLOR = "bbb"
 !$BORDERCOLOR = "000"
-!$BOXBG = "2e2e2e"
+!$BOXBG = "#7191fe"
 
 !procedure font_style()
   fontColor $PRIMARYFONTCOLOR
@@ -59,7 +59,7 @@ skinparam stereotypeCBackgroundColor $ACCENT
 !endprocedure
 
 !procedure accent_style()
-  backgroundColor #576ca7
+  backgroundColor #7191fe
   borderColor $ACCENTDARK
 !endprocedure
 

@@ -6,18 +6,26 @@
 ' it prints the classname as a label. The docs say this is a bug in an old version... but it is showing up
 ' so for now the participant boxes need to have colors declared inline
 
+' the following pull from the styles declared in appmap-theme.puml
 ' participant HTTP_server_requests as "HTTP server requests" <<HTTP_server_requests>>
 ' participant controllers as "controllers" <<controllers>>
 ' participant models as "models" <<models>>
 ' participant views as "views"  <<views>>
 ' participant Database as "Database" <<Database>>
 
+'the following use the default background color
+participant HTTP_server_requests as "HTTP server requests"
+participant controllers as "controllers"
+participant models as "models"
+participant views as "views"
+participant Database as "Database"
+
 'the following have hard-coded backgroundcolors
-participant HTTP_server_requests as "HTTP server requests" #541a68
-participant controllers as "controllers" #445db1
-participant models as "models" #445db1
-participant views as "views" #445db1
-participant Database as "Database" #9a12ba
+' participant HTTP_server_requests as "HTTP server requests" #541a68
+' participant controllers as "controllers" #445db1
+' participant models as "models" #445db1
+' participant views as "views" #445db1
+' participant Database as "Database" #9a12ba
   [->Database: begin transaction
   [->Database: SELECT "users".* FROM "users" WHERE "users"."id" =
   Note right
