@@ -3,6 +3,6 @@
 
 TODO:
 
-[] Match UI colors and fonts exactly
-[] Dynamic `participant` box colors
-[] Research if highlight on hover is possible
+- [ ] Match UI colors and fonts exactly
+- [ ] Dynamic `participant` box colors
+- [ ] Research if highlight on hover is possible
