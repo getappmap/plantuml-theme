@@ -1,117 +1,303 @@
-@startuml
-' UML stylesheet -DW
+!$THEME = "appmap"
 
-' this beta feature (adding classes to participants) doesn't seem to work too well
-' it prints the classname as a label. The docs say this is a bug in an old version... but it is showing up
-' so for now the participant boxes need to have colors declared inline
-
-' skinparam useBetaStyle true
-' <style>
-'     sequenceDiagram {
-'       .HTTP_server_requests {
-'         BackgroundColor #541a68
-'       }
-'        .controllers {
-'          BackgroundColor #445db1
-'        }
-'        .models {
-'          BackgroundColor #445db1 
-'        }
-'        .views {
-'          BackgroundColor #9a12ba
-'        }
-'        .Database {
-'          BackgroundColor #9a12ba
-'        }
-'     }
-' </style>
-
-!if (%not(%variable_exists("$FONTNAME")))
-!$FONTNAME = "Verdana"
-!endif
-!if (%not(%variable_exists("$FONTSIZE")))
-!$FONTSIZE = 14
-
+!if %not(%variable_exists("$BGCOLOR"))
+!$BGCOLOR = "transparent"
 !endif
 
 skinparam backgroundColor black
-!$ACCENT = "1a66c2"
-!$ACCENTDARK = "002642"
-skinparam stereotypeCBackgroundColor $ACCENT
-!$PRIMARYFONTCOLOR = "fff"
-!$SECONDARY = "aaa"
-!$ARROWCOLOR = "fff"
-!$ARROWFONTCOLOR = "bbb"
-!$BORDERCOLOR = "000"
-!$BOXBG = "#7191fe"
+skinparam useBetaStyle false
 
-!procedure font_style()
-  fontColor $PRIMARYFONTCOLOR
-  fontName $FONTNAME
-  fontSize $FONTSIZE
-  stereotypeFontColor $SECONDARY
-  stereotypeFontSize $FONTSIZE
+'AppMap palette
+!$BLUE = "#4362b1"
+!$INDIGO = "#66d9ef"
+!$PURPLE = "#8e05f8"
+!$PINK = "#e83e8c"
+!$RED = "#CC0000"
+!$ORANGE = "#fd7e14"
+!$YELLOW = "#FF8800"
+!$GREEN = "#a6e22e"
+!$TEAL = "#6fddd6"
+!$CYAN = "#9933CC"
+!$WHITE = "#FFF"
+!$GRAY = "#555"
+!$PRIMARY = "#4362b1"
+!$SECONDARY = "#555"
+!$SUCCESS = "#77B300"
+!$INFO = "#9933CC"
+!$WARNING = "#FF8800"
+!$DANGER = "#CC0000"
+!$DARK = "#ADAFAE"
+!$FGCOLOR = $WHITE
+!$PRIMARY_DARK = "#55B2DE"
+!$PRIMARY_TEXT = $PRIMARY
+!$SECONDARY_DARK = "#777777"
+!$SECONDARY_TEXT = $SECONDARY_DARK
+!$INFO_DARK = "#AD5CD6"
+!$INFO_TEXT = $INFO
+!$SUCCESS_DARK = "#92C233"
+!$SUCCESS_TEXT = $SUCCESS
+!$WARNING_DARK = "#FFA033"
+!$WARNING_TEXT = $WARNING
+!$DANGER_DARK = "#D63333"
+!$DANGER_TEXT = $WHITE
+!$DARK_DARK = "#BDBFBE"
+!$LIGHT_DARK = "#4E4E4E"
+
+!procedure $primary_scheme()
+	FontColor $PRIMARY_TEXT
+	BorderColor $PRIMARY_DARK
+	BackgroundColor $BGCOLOR
 !endprocedure
 
-!procedure basic_style()
-  backgroundColor $BOXBG
-  borderColor $BORDERCOLOR
-!endprocedure
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ParticipantPadding 40
+skinparam BoxPadding 40
+skinparam Padding 5
+skinparam ArrowColor $DARK
+skinparam stereotype {
+    CBackgroundColor $SECONDARY_DARK
+    CBorderColor $SECONDARY_LIGHT
+    ABackgroundColor $SUCCESS_LIGHT
+    ABorderColor $SUCCESS_DARK
+    IBackgroundColor $DANGER_LIGHT
+    IBorderColor $DANGER_DARK
+    EBackgroundColor $WARNING_LIGHT
+    EBorderColor $WARNING_DARK
+    NBackgroundColor $INFO_LIGHT
+    NBorderColor $INFO_DARK
+}
 
-!procedure accent_style()
-  backgroundColor #7191fe
-  borderColor $ACCENTDARK
-!endprocedure
+skinparam swimlane {
+	BorderColor $INFO
+	BorderThickness 2
+	TitleBackgroundColor  $SECONDARY_LIGHT-$SECONDARY
+	TitleFontColor $PRIMARY
+}
 
-!procedure arrow_style()
-  arrowColor $ARROWCOLOR
-  arrowFontName $FONTNAME
-  arrowFontColor $ARROWFONTCOLOR
-  arrowFontSize $FONTSIZE
-!endprocedure
-
-skinparam actor {
-  accent_style()
-  font_style()
+skinparam activity {
+	$primary_scheme()
+	BarColor $SUCCESS
+	StartColor $INFO
+	EndColor $INFO
+	DiamondBackgroundColor $BGCOLOR
+  	DiamondBorderColor $SECONDARY_DARK
+  	DiamondFontColor $SECONDARY_TEXT
 }
 
 skinparam participant {
-  basic_style()
-  font_style()
+	FontColor $WHITE
+	BorderColor $GRAY
+	BackgroundColor $GRAY
+	BorderThickness 1
 }
 
-skinparam collections {
-  basic_style()
-  font_style()
+skinparam actor {
+	$primary_scheme()
+	FontColor $PRIMARY
+}
+
+skinparam arrow {
+	Thickness 3
+	Color $BLUE
+	FontColor $FGCOLOR
 }
 
 skinparam sequence {
-  font_style()
-  arrow_style()
+	BorderColor $BLUE
+	TitleFontColor $PRIMARY
+	BackgroundColor $BGCOLOR
+	StartColor $PRIMARY
+	EndColor $PRIMARY
+	''
+	BoxBackgroundColor $BGCOLOR
+	BoxBorderColor $DARK
+	BoxFontColor $DARK
+	''
+	DelayFontColor $DARK
+	''
+	LifeLineBorderColor 999
+	LifeLineBorderThickness 2
+	LifeLineBackgroundColor $BGCOLOR
+	''
+	'' loop group styles
+	GroupBorderColor $BLUE
+	GroupFontColor $BLUE
+	GroupHeaderFontColor $WHITE
+	GroupBackgroundColor $BLUE
+	GroupBodyBackgroundColor $BGCOLOR
+	GroupHeaderBackgroundColor $BGCOLOR
+	'' 
+	DividerBackgroundColor $BGCOLOR
+    DividerBorderColor $DARK
+    DividerBorderThickness 2
+    DividerFontColor $DARK
+	''
+	ReferenceBackgroundColor $BGCOLOR
+	ReferenceBorderColor $DARK
+	ReferenceFontColor $DARK
+	ReferenceHeaderFontColor $INFO_TEXT
+	ReferenceHeaderBackgroundColor $BGCOLOR
+	''
+	StereotypeFontColor $PRIMARY_TEXT
+}
 
-  lifeLineBorderColor #7191fe
-  lifeLineBackgroundColor #000
+skinparam partition {
+	BorderColor $BLUE
+	FontColor $PRIMARY
+	BackgroundColor $BGCOLOR
+}
+
+skinparam collections {
+	$primary_scheme()
+}
+
+skinparam control {
+	$primary_scheme()
+	FontColor $PRIMARY
+}
+
+skinparam entity {
+	$primary_scheme()
+	FontColor $PRIMARY
+}
+
+skinparam boundary {
+	$primary_scheme()
+	FontColor $PRIMARY
+}
+
+skinparam agent {
+	BackgroundColor $BGCOLOR
+	BorderColor $WARNING_LIGHT
+	FontColor $DARK
 }
 
 skinparam note {
-  accent_style()
-  font_style()
+	BorderThickness 1
+	BackgroundColor $BLUE
+	' borderColor property does not work
+	BorderColor black
+	FontColor $WHITE
 }
 
-skinparam cloud {
-  basic_style()
-  font_style()
-  arrow_style()
+skinparam artifact {
+	BackgroundColor $BGCOLOR
+	BorderColor $DARK_DARK
+	FontColor $DARK_DARK
 }
 
-skinparam rectangle {
-  basic_style()
-  font_style()
+skinparam component {
+	$primary_scheme()
+	FontColor $DARK_DARK
+}
+
+skinparam interface {
+	BackgroundColor  $BGCOLOR
+	BorderColor  $DANGER
+	FontColor $DARK
 }
 
 skinparam storage {
-  basic_style()
-  font_style()
+	BackgroundColor $BGCOLOR
+  	BorderColor $WARNING_DARK
+	FontColor $WARNING_TEXT
 }
 
-@enduml
+skinparam node {
+	BackgroundColor  $BGCOLOR
+	BorderColor $DARK
+	FontColor $DARK
+}
+
+skinparam cloud {
+	BackgroundColor transparent
+	BorderColor #F2FCFE
+	FontColor $DARK
+}
+
+skinparam database {
+	$primary_scheme()
+	FontColor $PRIMARY
+}
+
+skinparam class {
+	$primary_scheme()
+        FontColor $LIGHT
+	HeaderBackgroundColor $PRIMARY_LIGHT
+	StereotypeFontColor $DARK
+	BorderThickness 1
+	AttributeFontColor $DARK
+	AttributeFontSize 11
+}
+
+skinparam object {
+	$primary_scheme()
+	StereotypeFontColor $DARK
+	BorderThickness 1
+	AttributeFontColor $SECONDARY_DARK
+	AttributeFontSize 11
+}
+
+skinparam usecase {
+	$primary_scheme()
+	BorderThickness 2
+	StereotypeFontColor $PRIMARY
+}
+
+skinparam rectangle {
+	$primary_scheme()
+	BorderThickness 2
+	StereotypeFontColor $PRIMARY
+}
+
+skinparam package {
+	BackgroundColor $BGCOLOR
+  	BorderColor $BLUE
+	FontColor $PRIMARY
+	BorderThickness 2
+}
+
+skinparam folder {
+	BackgroundColor $BGCOLOR
+  	BorderColor $WARNING
+	FontColor $WARNING
+	BorderThickness 2
+}
+
+skinparam frame {
+	BackgroundColor $BGCOLOR
+  	BorderColor $INFO
+	FontColor $INFO_TEXT
+	BorderThickness 2
+}
+
+skinparam state {
+	$primary_scheme()
+	StartColor $INFO
+	EndColor $INFO
+	AttributeFontColor $SECONDARY_TEXT
+	AttributeFontSize 11
+}
+
+skinparam queue {
+	$primary_scheme()
+}
+
+skinparam card {
+	BackgroundColor $BGCOLOR
+	BorderColor $INFO
+	FontColor $INFO_TEXT
+}
+
+skinparam file {
+	BackgroundColor $BGCOLOR
+	BorderColor $GRAY
+	FontColor $GRAY
+}
+
+skinparam stack {
+	$primary_scheme()
+}
